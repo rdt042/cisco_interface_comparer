@@ -10,6 +10,7 @@ from tqdm import tqdm
 # By rdt042web@gmail.com
 
 # Version 1 - Initial release
+# Version 2 - Added netmiko device_type for nexus
 
 # Variables
 usr = pwd = None
@@ -158,8 +159,7 @@ def print_interface_differences(hostname, interfaces, template_lines, file):
 if __name__ == '__main__':
     csv_file_name = 'devices.csv'
     template_file_name = 'template.txt'
-    model = 'cisco_ios'
-
+    
     banner = pyfiglet.figlet_format('ABC CISCO INTERFACE COMPARER', font='digital')
     print(SB + Fore.GREEN + banner + SR)
     print()
@@ -177,6 +177,10 @@ if __name__ == '__main__':
 
     print('\n' + SB + Fore.CYAN + 'Run interface comparison against (i)os or (n)exus devices : ' + SR)
     check3 = input_tester('>> : ','[^IiNn]',False)
+    if check3 == 'i': 
+        model = 'cisco_ios'
+    else:
+        model = 'cisco_nxos'
 
     print('\n' + SB + Fore.CYAN + 'Enter credentials :'  + SR)
     getusrpass()

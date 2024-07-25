@@ -11,6 +11,7 @@ from tqdm import tqdm
 
 # Version 1 - Initial release
 # Version 2 - Added netmiko device_type for nexus
+# Version 3 - Added interface name choice
 
 # Variables
 usr = pwd = None
@@ -92,7 +93,7 @@ def parse_interface_config(config):
         line = line.strip()  # Strip leading/trailing whitespaces
 
         # Check if line indicates the start of new interface section
-        if line.startswith('interface '):  
+        if line.startswith('interface ' + int_name):  
             if current_interface:  # If an interface section was being processed
                 # Store the current interface's lines in interfaces dictionary
                 # key - current_interfaces / value - current_lines
@@ -181,6 +182,13 @@ if __name__ == '__main__':
         model = 'cisco_ios'
     else:
         model = 'cisco_nxos'
+
+    print('\n' + SB + Fore.CYAN + 'Enter the name of the type of interface to run the comparisons on : ' + SR)
+    int_name = input('Enter name EXACTLY as it appears in the config - Eg. Ethernet, GigabitEthernet etc : ')
+    
+    print('\n' + SB + Fore.CYAN + 'You entered' + SB + Fore.GREEN + f' "{int_name}."' + SB + Fore.CYAN + ' Is this correct  (y/n): ' + SR)
+    check4 = input_tester('>> : ','[^YyNn]',True)
+
 
     print('\n' + SB + Fore.CYAN + 'Enter credentials :'  + SR)
     getusrpass()
